@@ -1,128 +1,124 @@
 import { motion } from 'framer-motion'
-import { Scale, Ear, Heart, Link2, Star, Shield } from 'lucide-react'
+import {
+  Scale, Ear, Heart, Link2, Star, Shield,
+} from 'lucide-react'
 
-const CARDS = [
+const PRINCIPIOS = [
   {
     icon: Scale,
-    word: 'Equidade',
-    line: 'Mais a quem precisa mais.',
-    grad: 'from-blue-500 to-blue-700',
-    glow: '0 20px 60px rgba(59,130,246,0.20)',
-    spot: '#dbeafe',
-  },
-  {
-    icon: Heart,
-    word: 'Respeito',
-    line: 'Dignidade em todo momento.',
-    grad: 'from-rose-400 to-pink-600',
-    glow: '0 20px 60px rgba(244,63,94,0.18)',
-    spot: '#fce7f3',
+    title: 'Equidade',
+    desc: 'Oferecer mais a quem precisa mais, reconhecendo que igualdade não é uniformidade de tratamento.',
+    color: 'from-blue-500 to-blue-700',
+    bg: 'bg-blue-50',
+    border: 'border-blue-100',
   },
   {
     icon: Ear,
-    word: 'Escuta',
-    line: 'Ouvir sem interromper.',
-    grad: 'from-violet-500 to-purple-700',
-    glow: '0 20px 60px rgba(139,92,246,0.18)',
-    spot: '#ede9fe',
+    title: 'Escuta Qualificada',
+    desc: 'Ouvir com atenção, presença e sem interrupções, permitindo que a pessoa expresse suas necessidades.',
+    color: 'from-teal-500 to-teal-700',
+    bg: 'bg-teal-50',
+    border: 'border-teal-100',
   },
   {
-    icon: Star,
-    word: 'Dignidade',
-    line: 'Valor único de cada vida.',
-    grad: 'from-amber-400 to-orange-500',
-    glow: '0 20px 60px rgba(251,191,36,0.18)',
-    spot: '#fef9c3',
+    icon: Heart,
+    title: 'Respeito',
+    desc: 'Tratar cada pessoa com dignidade, independentemente de sua aparência, odor, comportamento ou história.',
+    color: 'from-rose-400 to-rose-600',
+    bg: 'bg-rose-50',
+    border: 'border-rose-100',
   },
   {
     icon: Link2,
-    word: 'Vínculo',
-    line: 'Confiança que transforma.',
-    grad: 'from-emerald-500 to-green-700',
-    glow: '0 20px 60px rgba(52,211,153,0.18)',
-    spot: '#d1fae5',
+    title: 'Vínculo',
+    desc: 'Construir relação de confiança que favoreça a continuidade do cuidado e a adesão ao tratamento.',
+    color: 'from-violet-500 to-violet-700',
+    bg: 'bg-violet-50',
+    border: 'border-violet-100',
+  },
+  {
+    icon: Star,
+    title: 'Dignidade',
+    desc: 'Reconhecer o valor intrínseco de cada ser humano, preservando sua identidade e sua autonomia.',
+    color: 'from-amber-400 to-amber-600',
+    bg: 'bg-amber-50',
+    border: 'border-amber-100',
   },
   {
     icon: Shield,
-    word: 'Redução de Danos',
-    line: 'Minimizar riscos, respeitar tempo.',
-    grad: 'from-cyan-500 to-teal-600',
-    glow: '0 20px 60px rgba(45,212,191,0.18)',
-    spot: '#cffafe',
+    title: 'Redução de Danos',
+    desc: 'Estratégias que minimizam riscos à saúde sem exigir abstinência imediata, respeitando o tempo de cada pessoa.',
+    color: 'from-green-500 to-green-700',
+    bg: 'bg-green-50',
+    border: 'border-green-100',
   },
 ]
 
-const container = {
+const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.12 } },
 }
-const card = {
-  hidden:  { opacity: 0, y: 44, scale: 0.96 },
-  visible: { opacity: 1, y: 0,  scale: 1,  transition: { duration: 0.65, ease: [0.25,0.46,0.45,0.94] } },
+
+const cardVariants = {
+  hidden:  { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } },
 }
 
 export default function Principios() {
   return (
     <section
       id="principios"
-      className="py-28 px-4"
-      style={{ background: 'linear-gradient(180deg,#f0f9ff 0%,#f8fafc 100%)' }}
+      className="py-24 px-4"
+      style={{ background: 'linear-gradient(180deg, #EBF5FB 0%, #E8F8F5 100%)' }}
     >
       <div className="max-w-6xl mx-auto">
-
-        {/* Section header */}
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-20"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
         >
-          <span className="inline-block text-xs font-black uppercase tracking-[0.3em] text-teal-500 mb-4">
-            Seção 01
+          <span className="inline-block bg-sus-800 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">
+            Seção 1
           </span>
           <h2
-            className="font-display text-5xl md:text-6xl font-black text-slate-800 leading-none"
-            style={{ fontFamily:"'Playfair Display',Georgia,serif" }}
+            className="font-display text-4xl md:text-5xl font-bold text-sus-900 mb-4"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
-            Princípios do
-            <br />
-            <span className="text-gradient-teal">Acolhimento</span>
+            Princípios do Acolhimento
           </h2>
+          <p className="text-gray-500 text-lg max-w-xl mx-auto">
+            Valores que orientam a conduta humanizada na Atenção Primária à Saúde.
+          </p>
         </motion.div>
 
-        {/* Cards */}
+        {/* Cards grid */}
         <motion.div
-          variants={container}
+          variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {CARDS.map(({ icon: Icon, word, line, grad, glow, spot }) => (
-            <motion.article
-              key={word}
-              variants={card}
-              whileHover={{ y: -10, transition: { duration: 0.3 } }}
-              className="relative bg-white rounded-3xl p-8 overflow-hidden cursor-default transition-shadow"
-              style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.07)' }}
-              onHoverStart={(e) => e.currentTarget.style.boxShadow = glow}
-              onHoverEnd={(e)   => e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.07)'}
+          {PRINCIPIOS.map(({ icon: Icon, title, desc, color, bg, border }) => (
+            <motion.div
+              key={title}
+              variants={cardVariants}
+              whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,0,0,0.10)' }}
+              className={`${bg} border ${border} rounded-2xl p-7 flex flex-col gap-4 cursor-default transition-shadow`}
             >
-              {/* Corner accent */}
               <div
-                className="absolute top-0 right-0 w-36 h-36 rounded-bl-[80px] opacity-10 pointer-events-none"
-                style={{ background: spot }}
-              />
-
-              {/* Icon */}
-              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${grad} flex items-center justify-center mb-7 shadow-lg`}>
-                <Icon className="w-8 h-8 text-white" />
+                className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center shadow-md`}
+              >
+                <Icon className="w-6 h-6 text-white" />
               </div>
-
-              <h3 className="text-2xl font-black text-slate-800 mb-2">{word}</h3>
-              <p className="text-slate-500 text-sm leading-relaxed">{line}</p>
-            </motion.article>
+              <div>
+                <h3 className="text-lg font-bold text-gray-800 mb-1">{title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+              </div>
+            </motion.div>
           ))}
         </motion.div>
       </div>
