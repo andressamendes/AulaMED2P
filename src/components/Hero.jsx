@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 
@@ -43,6 +44,7 @@ const lineVariants = {
 
 export default function Hero() {
   const logoUrl = `${import.meta.env.BASE_URL}logo-afya.png`
+  const [logoFailed, setLogoFailed] = useState(false)
 
   return (
     <section
@@ -149,10 +151,12 @@ export default function Hero() {
           <img
             src={logoUrl}
             alt="Afya Guanambi"
-            className="h-8 w-auto"
-            onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling.removeAttribute('style') }}
+            className={`h-8 w-auto${logoFailed ? ' hidden' : ''}`}
+            onError={() => setLogoFailed(true)}
           />
-          <span className="text-white/50 font-bold text-sm" style={{ display:'none' }}>AFYA</span>
+          {logoFailed && (
+            <span className="text-white/50 font-bold text-sm">AFYA</span>
+          )}
           <div className="w-px h-6 bg-white/15" />
           <div className="text-left">
             <p className="text-white/90 text-xs font-bold leading-tight">Faculdade Afya Guanambi</p>

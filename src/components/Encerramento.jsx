@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { BookOpen, Users, Heart } from 'lucide-react'
 
@@ -11,6 +12,7 @@ const REFS = [
 
 export default function Encerramento() {
   const logoUrl = `${import.meta.env.BASE_URL}logo-afya.png`
+  const [logoFailed, setLogoFailed] = useState(false)
 
   return (
     <section
@@ -42,15 +44,12 @@ export default function Encerramento() {
             <img
               src={logoUrl}
               alt="Afya Guanambi"
-              className="h-12 w-auto"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'
-                e.currentTarget.nextElementSibling.removeAttribute('style')
-              }}
+              className={`h-12 w-auto${logoFailed ? ' hidden' : ''}`}
+              onError={() => setLogoFailed(true)}
             />
-            <span className="text-white font-black text-lg" style={{ display: 'none' }}>
-              AFYA · Guanambi
-            </span>
+            {logoFailed && (
+              <span className="text-white font-black text-lg">AFYA · Guanambi</span>
+            )}
           </div>
         </motion.div>
 

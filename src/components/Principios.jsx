@@ -103,11 +103,9 @@ export default function Principios() {
             <motion.article
               key={word}
               variants={card}
-              whileHover={{ y: -10, transition: { duration: 0.3 } }}
-              className="relative bg-white rounded-3xl p-8 overflow-hidden cursor-default transition-shadow"
+              whileHover={{ y: -10, boxShadow: glow, transition: { duration: 0.3 } }}
               style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.07)' }}
-              onHoverStart={(e) => e.currentTarget.style.boxShadow = glow}
-              onHoverEnd={(e)   => e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.07)'}
+              className="relative bg-white rounded-3xl p-8 overflow-hidden cursor-default"
             >
               {/* Corner accent */}
               <div

@@ -14,19 +14,15 @@ export default function App() {
 
   return (
     <div className="font-sans bg-white text-gray-800 overflow-x-hidden">
-      {/* Scroll progress bar */}
+      {/* Scroll progress bar — style único, sem prop css inválido */}
       <motion.div
-        style={{ scaleX }}
-        className="fixed top-0 left-0 right-0 h-[3px] z-[60] origin-left"
-        css={{ background: 'linear-gradient(90deg,#2dd4bf,#38bdf8,#818cf8)' }}
-        // inline fallback
+        style={{
+          scaleX,
+          background: 'linear-gradient(90deg,#2dd4bf,#38bdf8,#818cf8)',
+        }}
+        className="fixed top-0 left-0 right-0 h-[3px] z-[60] origin-left pointer-events-none"
         aria-hidden="true"
-      >
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(90deg,#2dd4bf,#38bdf8,#818cf8)' }}
-        />
-      </motion.div>
+      />
 
       <Navbar />
 
