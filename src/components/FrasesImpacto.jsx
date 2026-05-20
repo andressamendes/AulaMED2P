@@ -2,100 +2,98 @@ import { motion } from 'framer-motion'
 
 const FRASES = [
   {
-    texto: 'Acolher sem julgar.',
-    autor: 'Princípio do cuidado humanizado',
-    cor: 'from-teal-600 to-teal-800',
-    destaque: 'text-teal-300',
+    texto: 'Acolher\nsem julgar.',
+    bg: 'linear-gradient(135deg,#0D47A1 0%,#005F73 100%)',
+    accent: '#2dd4bf',
+    num: '01',
   },
   {
-    texto: 'Cuidar é reconhecer dignidade.',
-    autor: 'Política Nacional de Humanização',
-    cor: 'from-sus-700 to-sus-900',
-    destaque: 'text-blue-300',
+    texto: 'Cuidar é reconhecer\ndignidade.',
+    bg: 'linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)',
+    accent: '#a78bfa',
+    num: '02',
   },
   {
-    texto: 'O SUS é para todas as pessoas.',
-    autor: 'Constituição Federal, Art. 196',
-    cor: 'from-health-700 to-health-900',
-    destaque: 'text-green-300',
+    texto: 'O SUS é para\ntodas as pessoas.',
+    bg: 'linear-gradient(135deg,#064e3b 0%,#065f46 50%,#047857 100%)',
+    accent: '#34d399',
+    num: '03',
   },
   {
-    texto: 'Pequenas atitudes transformam o cuidado.',
-    autor: 'Relações Étnico-Raciais e Saúde',
-    cor: 'from-violet-700 to-violet-900',
-    destaque: 'text-violet-300',
+    texto: 'Pequenas atitudes\ntransformam o cuidado.',
+    bg: 'linear-gradient(135deg,#1e1b4b 0%,#312e81 50%,#3730a3 100%)',
+    accent: '#fbbf24',
+    num: '04',
   },
 ]
 
 export default function FrasesImpacto() {
   return (
-    <section
-      id="frases"
-      className="py-24 px-4 bg-gray-950"
-    >
-      <div className="max-w-5xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+    <section id="frases" className="bg-black">
+      {FRASES.map(({ texto, bg, accent, num }, i) => (
+        <div
+          key={i}
+          className="relative flex items-center justify-center px-6 overflow-hidden"
+          style={{ background: bg, minHeight: '60vh', padding: '6rem 1.5rem' }}
         >
-          <span className="inline-block bg-white/10 text-white/80 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5 border border-white/20">
-            Seção 5
-          </span>
-          <h2
-            className="font-display text-4xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          {/* Decorative large number */}
+          <div
+            className="absolute right-8 bottom-4 font-black text-[10rem] md:text-[14rem] leading-none select-none pointer-events-none opacity-[0.04]"
+            style={{ fontFamily:"'Playfair Display',Georgia,serif", color: accent }}
+            aria-hidden="true"
           >
-            Frases de Impacto
-          </h2>
-          <p className="text-gray-400 text-lg max-w-md mx-auto">
-            Palavras que guiam a prática do cuidado com dignidade.
-          </p>
-        </motion.div>
+            {num}
+          </div>
 
-        {/* Quotes grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {FRASES.map(({ texto, autor, cor, destaque }, i) => (
+          {/* Glow blob */}
+          <div
+            className="absolute rounded-full pointer-events-none"
+            style={{
+              width: 400, height: 400,
+              background: `radial-gradient(circle,${accent}18 0%,transparent 70%)`,
+              top: '50%', left: '50%',
+              transform: 'translate(-50%,-50%)',
+            }}
+          />
+
+          <div className="relative z-10 text-center max-w-3xl mx-auto">
+            {/* Accent line top */}
             <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.55, delay: i * 0.12 }}
-              whileHover={{ scale: 1.02 }}
-              className={`relative bg-gradient-to-br ${cor} rounded-2xl p-8 overflow-hidden cursor-default`}
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              style={{ originX: 0.5, background: accent }}
+              className="h-[2px] w-12 mx-auto rounded-full mb-8"
+            />
+
+            {/* Quote */}
+            <motion.p
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.9, delay: 0.2, ease: [0.25,0.46,0.45,0.94] }}
+              className="font-display font-black text-white leading-tight whitespace-pre-line"
+              style={{
+                fontFamily:"'Playfair Display',Georgia,serif",
+                fontSize: 'clamp(2rem,6vw,4rem)',
+              }}
             >
-              {/* Decorative quote mark */}
-              <div
-                className="absolute top-4 right-5 font-display text-8xl font-bold text-white/10 leading-none select-none"
-                aria-hidden="true"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-              >
-                "
-              </div>
+              {texto}
+            </motion.p>
 
-              {/* Background glow */}
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 rounded-full bg-white/5 blur-2xl" />
-
-              {/* Content */}
-              <div className="relative z-10">
-                <p
-                  className="font-display text-2xl md:text-3xl font-bold text-white leading-snug mb-5"
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-                >
-                  "{texto}"
-                </p>
-                <div className={`text-xs font-semibold uppercase tracking-widest ${destaque}`}>
-                  — {autor}
-                </div>
-              </div>
-            </motion.div>
-          ))}
+            {/* Accent line bottom */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.55 }}
+              style={{ originX: 0.5, background: accent }}
+              className="h-[2px] w-8 mx-auto rounded-full mt-8"
+            />
+          </div>
         </div>
-      </div>
+      ))}
     </section>
   )
 }

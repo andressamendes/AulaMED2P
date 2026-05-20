@@ -1,213 +1,230 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle2, XCircle, ChevronDown } from 'lucide-react'
+import { CheckCircle2, XCircle, FileText, Droplets, Brain, Pill, Zap } from 'lucide-react'
 
 const SITUACOES = [
   {
-    tema: 'Atendimento sem Documentação',
+    id: 'docs',
+    label: 'Documentação',
+    icon: FileText,
     adequada: [
-      'Atender independentemente de documentos — RG, CPF e cartão SUS não são pré-requisito.',
-      'Registrar atendimento em prontuário com descrição da situação.',
-      'Orientar sobre como obter documentação se a pessoa demonstrar interesse.',
+      { e: '✅', t: 'Atende sem documentos' },
+      { e: '📝', t: 'Registra sem burocracia' },
+      { e: '🤝', t: 'Orienta com empatia' },
     ],
     inadequada: [
-      'Recusar ou adiar atendimento por falta de documentação.',
-      'Exigir comprovante de endereço para cadastro.',
-      'Ignorar a necessidade imediata alegando "irregularidade cadastral".',
+      { e: '❌', t: 'Recusa por falta de RG' },
+      { e: '🚫', t: 'Exige comprovante de endereço' },
+      { e: '⏰', t: 'Adia sem motivo clínico' },
     ],
   },
   {
-    tema: 'Higiene e Odor Corporal',
+    id: 'higiene',
+    label: 'Higiene',
+    icon: Droplets,
     adequada: [
-      'Manter postura respeitosa e não demonstrar repulsa.',
-      'Disponibilizar recursos de higiene quando possível (sabonete, toalha).',
-      'Perguntar com empatia se a pessoa tem acesso a local para banho.',
+      { e: '✅', t: 'Postura respeitosa' },
+      { e: '🧼', t: 'Disponibiliza recursos de higiene' },
+      { e: '💬', t: 'Pergunta com empatia' },
     ],
     inadequada: [
-      'Fazer comentários depreciativos sobre odor ou sujidade.',
-      'Atender rapidamente para "livrar-se" da pessoa.',
-      'Usar EPI de forma exagerada e desnecessária, gerando constrangimento.',
+      { e: '😬', t: 'Demonstra repulsa visivelmente' },
+      { e: '😷', t: 'EPI exagerado e desnecessário' },
+      { e: '⚡', t: 'Atende com pressa para "livrar-se"' },
     ],
   },
   {
-    tema: 'Saúde Mental',
+    id: 'mental',
+    label: 'Saúde Mental',
+    icon: Brain,
     adequada: [
-      'Acolher crises com calma, sem pressa ou coerção.',
-      'Acionar apoio matricial ou CAPS quando necessário.',
-      'Documentar histórico e garantir continuidade do cuidado.',
+      { e: '✅', t: 'Acolhe a crise com calma' },
+      { e: '🏥', t: 'Aciona CAPS se necessário' },
+      { e: '📋', t: 'Garante continuidade do cuidado' },
     ],
     inadequada: [
-      'Acionar segurança ou polícia como primeira resposta a manifestações de sofrimento.',
-      'Minimizar sofrimento psíquico com falas como "é frescura".',
-      'Recusar atendimento por comportamento considerado "difícil".',
+      { e: '❌', t: 'Chama segurança como 1ª resposta' },
+      { e: '🙈', t: 'Minimiza o sofrimento psíquico' },
+      { e: '🚫', t: 'Recusa por "comportamento difícil"' },
     ],
   },
   {
-    tema: 'Uso de Substâncias',
+    id: 'substancias',
+    label: 'Substâncias',
+    icon: Pill,
     adequada: [
-      'Aplicar estratégias de redução de danos sem julgamento.',
-      'Oferecer kits de redução de danos quando disponíveis.',
-      'Abordar o tema com perguntas abertas e sem imposição de abstinência.',
+      { e: '✅', t: 'Aplica redução de danos' },
+      { e: '🛡️', t: 'Oferece kit de proteção' },
+      { e: '💬', t: 'Aborda sem impor abstinência' },
     ],
     inadequada: [
-      'Condicionar atendimento à abstinência ou promessa de "parar".',
-      'Usar linguagem estigmatizante como "viciado" ou "drogado".',
-      'Recusar cuidado clínico alegando que "só resolve se parar de usar".',
+      { e: '❌', t: 'Condiciona cuidado à abstinência' },
+      { e: '🏷️', t: 'Usa linguagem estigmatizante' },
+      { e: '🚫', t: 'Recusa atendimento clínico' },
     ],
   },
   {
-    tema: 'Recusa de Atendimento',
+    id: 'crise',
+    label: 'Crise Aguda',
+    icon: Zap,
     adequada: [
-      'Respeitar a autonomia — informar riscos sem coagir.',
-      'Registrar a recusa em prontuário com anotação de orientações fornecidas.',
-      'Manter relação de confiança para que a pessoa retorne quando pronta.',
+      { e: '✅', t: 'Cria ambiente seguro e calmo' },
+      { e: '🗣️', t: 'Comunicação não violenta' },
+      { e: '🚑', t: 'Aciona SAMU se necessário' },
     ],
     inadequada: [
-      'Forçar procedimentos contra a vontade da pessoa.',
-      'Encerrar o vínculo por recusa pontual de tratamento.',
-      'Julgar moralmente a decisão da pessoa.',
-    ],
-  },
-  {
-    tema: 'Manejo de Crise',
-    adequada: [
-      'Criar ambiente seguro, calmo e com poucos estímulos.',
-      'Usar comunicação não violenta: voz baixa, contato visual, escuta ativa.',
-      'Acionar equipe multiprofissional e, se necessário, SAMU/UPA.',
-    ],
-    inadequada: [
-      'Gritar, ameaçar ou fazer ultimatos durante episódio de crise.',
-      'Deixar a pessoa sozinha em lugar de risco.',
-      'Chamar a polícia como medida terapêutica primária.',
+      { e: '❌', t: 'Grita ou faz ultimatos' },
+      { e: '😓', t: 'Abandona a pessoa em risco' },
+      { e: '👮', t: 'Polícia como medida terapêutica' },
     ],
   },
 ]
 
-function SituacaoCard({ tema, adequada, inadequada }) {
-  const [open, setOpen] = useState(false)
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5 }}
-      className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden"
-    >
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-gray-50 transition-colors"
-      >
-        <span className="font-bold text-gray-800">{tema}</span>
-        <motion.div
-          animate={{ rotate: open ? 180 : 0 }}
-          transition={{ duration: 0.25 }}
-        >
-          <ChevronDown className="w-5 h-5 text-gray-400" />
-        </motion.div>
-      </button>
-
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-gray-100">
-              {/* Conduta adequada */}
-              <div className="bg-green-50 p-5">
-                <div className="flex items-center gap-2 mb-3">
-                  <CheckCircle2 className="w-5 h-5 text-health-700 shrink-0" />
-                  <span className="text-health-800 font-bold text-sm">Conduta Adequada</span>
-                </div>
-                <ul className="space-y-2">
-                  {adequada.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-gray-600 leading-snug">
-                      <span className="text-health-500 mt-0.5 shrink-0">✓</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Conduta inadequada */}
-              <div className="bg-red-50 p-5">
-                <div className="flex items-center gap-2 mb-3">
-                  <XCircle className="w-5 h-5 text-red-600 shrink-0" />
-                  <span className="text-red-700 font-bold text-sm">Conduta Inadequada</span>
-                </div>
-                <ul className="space-y-2">
-                  {inadequada.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-gray-600 leading-snug">
-                      <span className="text-red-400 mt-0.5 shrink-0">✕</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  )
-}
+const itemAnim = (dir) => ({
+  hidden:  { opacity: 0, x: dir },
+  visible: (i) => ({ opacity: 1, x: 0, transition: { duration: 0.4, delay: i * 0.09 } }),
+})
 
 export default function SituacoesPraticas() {
+  const [activeId, setActiveId] = useState(SITUACOES[0].id)
+  const active = SITUACOES.find((s) => s.id === activeId)
+
   return (
     <section
       id="situacoes"
-      className="py-24 px-4"
-      style={{ background: 'linear-gradient(180deg, #F8FAFC 0%, #EBF5FB 100%)' }}
+      className="py-28 px-4"
+      style={{ background: 'linear-gradient(180deg,#0F172A 0%,#0a1020 100%)' }}
     >
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
+
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-6"
+          transition={{ duration: 0.7 }}
+          className="text-center mb-16"
         >
-          <span className="inline-block bg-violet-700 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">
-            Seção 3
+          <span className="text-xs font-black uppercase tracking-[0.3em] text-teal-400 block mb-4">
+            Seção 03
           </span>
           <h2
-            className="font-display text-4xl md:text-5xl font-bold text-gray-800 mb-4"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            className="font-display text-5xl md:text-6xl font-black text-white leading-none"
+            style={{ fontFamily:"'Playfair Display',Georgia,serif" }}
           >
-            Situações Práticas
+            Como <span className="text-gradient-teal">Agir</span>
           </h2>
-          <p className="text-gray-500 text-lg max-w-lg mx-auto">
-            Clique em cada situação para ver a conduta adequada e inadequada.
-          </p>
+          <p className="text-slate-500 mt-4 text-sm">Selecione um tema para ver a comparação</p>
         </motion.div>
 
-        {/* Legend */}
+        {/* Tab buttons */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex items-center justify-center gap-6 mb-10"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-2 mb-10"
         >
-          <div className="flex items-center gap-1.5 text-sm text-gray-500">
-            <CheckCircle2 className="w-4 h-4 text-health-600" />
-            Conduta adequada
-          </div>
-          <div className="flex items-center gap-1.5 text-sm text-gray-500">
-            <XCircle className="w-4 h-4 text-red-500" />
-            Conduta inadequada
-          </div>
+          {SITUACOES.map(({ id, label, icon: Icon }) => (
+            <motion.button
+              key={id}
+              onClick={() => setActiveId(id)}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all cursor-pointer ${
+                id === activeId
+                  ? 'text-white shadow-lg'
+                  : 'glass text-white/55 hover:text-white/80 border-0'
+              }`}
+              style={id === activeId ? { background: 'linear-gradient(135deg,#0d9488,#2563eb)', boxShadow: '0 8px 30px rgba(13,148,136,0.30)' } : {}}
+            >
+              <Icon className="w-4 h-4" />
+              {label}
+            </motion.button>
+          ))}
         </motion.div>
 
-        {/* Cards */}
-        <div className="flex flex-col gap-4">
-          {SITUACOES.map((s) => (
-            <SituacaoCard key={s.tema} {...s} />
+        {/* Comparison panel */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeId}
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0,  scale: 1 }}
+            exit={{ opacity: 0, y: -16, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: [0.25,0.46,0.45,0.94] }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
+            {/* Adequate — green */}
+            <div
+              className="rounded-3xl p-8 border"
+              style={{ background: 'rgba(6,78,59,0.35)', borderColor: 'rgba(52,211,153,0.20)' }}
+            >
+              <div className="flex items-center gap-3 mb-7">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(52,211,153,0.18)' }}>
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                </div>
+                <span className="text-emerald-400 font-black text-sm uppercase tracking-wider">
+                  Conduta Adequada
+                </span>
+              </div>
+
+              <motion.ul variants={{ visible: { transition: { staggerChildren: 0.09 } } }} initial="hidden" animate="visible" className="space-y-4">
+                {active.adequada.map(({ e, t }, i) => (
+                  <motion.li
+                    key={i}
+                    custom={i}
+                    variants={itemAnim(-12)}
+                    className="flex items-center gap-3"
+                  >
+                    <span className="text-2xl select-none shrink-0">{e}</span>
+                    <span className="text-emerald-100/90 text-sm font-medium">{t}</span>
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </div>
+
+            {/* Inadequate — red */}
+            <div
+              className="rounded-3xl p-8 border"
+              style={{ background: 'rgba(69,10,10,0.40)', borderColor: 'rgba(248,113,113,0.20)' }}
+            >
+              <div className="flex items-center gap-3 mb-7">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(248,113,113,0.18)' }}>
+                  <XCircle className="w-5 h-5 text-red-400" />
+                </div>
+                <span className="text-red-400 font-black text-sm uppercase tracking-wider">
+                  Conduta Inadequada
+                </span>
+              </div>
+
+              <motion.ul variants={{ visible: { transition: { staggerChildren: 0.09 } } }} initial="hidden" animate="visible" className="space-y-4">
+                {active.inadequada.map(({ e, t }, i) => (
+                  <motion.li
+                    key={i}
+                    custom={i}
+                    variants={itemAnim(12)}
+                    className="flex items-center gap-3"
+                  >
+                    <span className="text-2xl select-none shrink-0">{e}</span>
+                    <span className="text-red-100/80 text-sm font-medium">{t}</span>
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Topic counter */}
+        <div className="flex justify-center gap-2 mt-8">
+          {SITUACOES.map(({ id }) => (
+            <button
+              key={id}
+              onClick={() => setActiveId(id)}
+              className={`transition-all rounded-full cursor-pointer ${
+                id === activeId ? 'w-6 h-2 bg-teal-400' : 'w-2 h-2 bg-white/20 hover:bg-white/40'
+              }`}
+              aria-label={id}
+            />
           ))}
         </div>
       </div>
