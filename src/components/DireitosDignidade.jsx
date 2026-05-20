@@ -1,107 +1,83 @@
 import { motion } from 'framer-motion'
-import { HeartHandshake, ShieldCheck, UserCheck, Lock, Focus } from 'lucide-react'
+import { HeartHandshake, ShieldCheck, Users, Lock, Focus } from 'lucide-react'
 
 const DIREITOS = [
-  {
-    icon: HeartHandshake,
-    title: 'Direito Universal à Saúde',
-    desc: 'O SUS garante atendimento a toda pessoa, independentemente de documentos, endereço, aparência ou conduta de vida.',
-    base: 'Constituição Federal, Art. 196',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Dignidade Humana',
-    desc: 'Nenhuma condição socioeconômica retira de alguém o direito ao respeito, à integridade e ao tratamento humanizado.',
-    base: 'CF Art. 1º · Bioética do Cuidado',
-  },
-  {
-    icon: UserCheck,
-    title: 'Atendimento sem Discriminação',
-    desc: 'É vedado qualquer tratamento diferenciado por raça, gênero, origem, religião, condição social ou uso de substâncias.',
-    base: 'Lei 8.080/90 · PNH/MS',
-  },
-  {
-    icon: Lock,
-    title: 'Privacidade e Sigilo',
-    desc: 'As informações de saúde são confidenciais. O sigilo profissional é obrigação ética e legal, independente do vínculo familiar ou social.',
-    base: 'CFM · Lei 13.709/18 (LGPD)',
-  },
-  {
-    icon: Focus,
-    title: 'Cuidado Centrado na Pessoa',
-    desc: 'As decisões terapêuticas devem considerar a história, os valores, a autonomia e as preferências do indivíduo.',
-    base: 'Política Nacional de Humanização',
-  },
+  { num: '01', icon: HeartHandshake, title: 'Direito Universal à Saúde',      base: 'CF Art. 196',          color: '#38bdf8' },
+  { num: '02', icon: ShieldCheck,    title: 'Dignidade Humana Inviolável',     base: 'CF Art. 1º',           color: '#34d399' },
+  { num: '03', icon: Users,          title: 'Atendimento sem Discriminação',   base: 'Lei 8.080/90 · PNH',  color: '#a78bfa' },
+  { num: '04', icon: Lock,           title: 'Privacidade e Sigilo',            base: 'CFM · LGPD',           color: '#fbbf24' },
+  { num: '05', icon: Focus,          title: 'Cuidado Centrado na Pessoa',      base: 'Pol. Nac. Humanização',color: '#f472b6' },
 ]
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.13 } },
-}
-
-const itemVariants = {
-  hidden:  { opacity: 0, x: -24 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.55, ease: 'easeOut' } },
-}
 
 export default function DireitosDignidade() {
   return (
     <section
       id="direitos"
-      className="py-24 px-4"
-      style={{ background: 'linear-gradient(135deg, #0D47A1 0%, #006064 100%)' }}
+      className="py-28 px-4"
+      style={{ background: 'linear-gradient(180deg,#020D1A 0%,#0A1628 100%)' }}
     >
       <div className="max-w-4xl mx-auto">
+
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.7 }}
+          className="text-center mb-20"
         >
-          <span className="inline-block bg-white/20 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5 border border-white/30">
-            Seção 4
+          <span className="text-xs font-black uppercase tracking-[0.3em] text-violet-400 block mb-4">
+            Seção 04
           </span>
           <h2
-            className="font-display text-4xl md:text-5xl font-bold text-white mb-4"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            className="font-display text-5xl md:text-6xl font-black text-white leading-none"
+            style={{ fontFamily:"'Playfair Display',Georgia,serif" }}
           >
-            Direitos e Dignidade
+            Direitos &amp;
+            <br />
+            <span className="text-gradient-blue">Dignidade</span>
           </h2>
-          <p className="text-blue-200 text-lg max-w-lg mx-auto">
-            Pilares legais e éticos que fundamentam o cuidado humanizado no SUS.
-          </p>
         </motion.div>
 
         {/* Rights list */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          className="flex flex-col gap-5"
-        >
-          {DIREITOS.map(({ icon: Icon, title, desc, base }) => (
+        <div className="flex flex-col gap-4">
+          {DIREITOS.map(({ num, icon: Icon, title, base, color }, i) => (
             <motion.div
-              key={title}
-              variants={itemVariants}
-              whileHover={{ x: 6 }}
-              className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 flex gap-5 items-start hover:bg-white/15 transition-colors cursor-default"
+              key={num}
+              initial={{ opacity: 0, x: -48 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.65, delay: i * 0.1, ease: [0.25,0.46,0.45,0.94] }}
+              whileHover={{ x: 10, transition: { duration: 0.25 } }}
+              className="flex items-center gap-5 glass rounded-2xl px-6 py-5 cursor-default"
             >
-              <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
-                <Icon className="w-6 h-6 text-teal-300" />
+              {/* Ghost number */}
+              <span
+                className="text-5xl font-black font-mono opacity-15 w-16 text-right leading-none shrink-0"
+                style={{ color }}
+              >
+                {num}
+              </span>
+
+              {/* Divider */}
+              <div className="w-px h-10 bg-white/10 shrink-0" />
+
+              {/* Icon */}
+              <div
+                className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+                style={{ background: color + '22' }}
+              >
+                <Icon className="w-5 h-5" style={{ color }} />
               </div>
+
+              {/* Text */}
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-white text-lg mb-1">{title}</h3>
-                <p className="text-blue-100 text-sm leading-relaxed mb-2">{desc}</p>
-                <span className="inline-block bg-white/15 text-white/70 text-xs font-semibold px-3 py-0.5 rounded-full border border-white/20">
-                  {base}
-                </span>
+                <h3 className="text-white font-bold text-base leading-snug">{title}</h3>
+                <p className="text-white/35 text-xs font-semibold uppercase tracking-wider mt-0.5">{base}</p>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )
